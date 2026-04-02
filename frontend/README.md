@@ -14,3 +14,12 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Environment Configuration
+
+The frontend API base URL is configured via `VITE_API_BASE_URL`.
+
+1. Copy `.env.example` to `.env`.
+2. Set `VITE_API_BASE_URL` (for local development, use `http://localhost:5000`).
+
+All HTTP calls now go through `src/api/client.js`, so you only need to change this one env variable when switching environments.
