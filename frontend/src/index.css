@@ -1,0 +1,364 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Tamil:wght@100..800&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-menu {
+    font-family: "Poppins";
+    font-size: 15px;
+  }
+  
+  /* Customizing menu item colors */
+  .custom-menu .ant-menu-item {
+    color: #555; /* Default text color */
+    font-weight: 400;
+  }
+  
+  /* Change selected menu item background and text color */
+  .custom-menu .ant-menu-item-selected {
+    background-color: rgba(112, 224, 0, 0.3) !important; /* Adjust the opacity (0.0 - 1.0) */
+    color: #008000 !important;
+}
+  
+  /* Submenu font */
+  .custom-menu .ant-menu-submenu-title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+  }
+  
+  /* Collapsed menu items */
+  .custom-menu .ant-menu-item-icon {
+    font-size: 18px;
+  }
+  
+ /* Default submenu title color (black when closed) */
+.custom-menu .ant-menu-submenu-title {
+    color: rgb(22, 22, 22) !important;
+    font-weight: 400;
+}
+
+/* Change color when submenu is open (green) */
+.custom-menu .ant-menu-submenu-open > .ant-menu-submenu-title {
+    color: #008000 !important; /* Green */
+    font-weight: 400;
+}
+
+/* Ensure the selected menu item color when the sidebar is collapsed */
+.ant-menu-submenu-popup .ant-menu-item-selected {
+    background-color: rgba(112, 224, 0, 0.3) !important; /* Light green */
+    color: #008000 !important; /* Dark green text */
+}
+
+/* Change hover effect for selected items in collapsed mode */
+.ant-menu-submenu-popup .ant-menu-item:hover {
+    background-color: rgba(112, 224, 0, 0.2) !important;
+}
+
+
+/* Override Ant Design Table Header */
+.ant-table-thead > tr > th {
+  background-color: #c7f9cc !important; /* Light Green */
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: bold !important;
+}
+
+/* Override Ant Design Table Cells */
+.ant-table {
+  font-family: 'Poppins', sans-serif !important;
+}
+/* ✅ Inputs & Selects */
+.ant-input,
+.ant-select-selector {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* Remove blue border/background on focus/hover & use green theme */
+.ant-input:focus,
+.ant-select-selector:focus,
+.ant-input:hover,
+.ant-select-selector:hover {
+  background-color: white !important;  /* Keep it white */
+  border-color: #218838 !important;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important;
+  outline: none !important;
+}
+
+/* Additional override when the select dropdown is open or focused */
+.ant-select-open .ant-select-selector,
+.ant-select-focused .ant-select-selector {
+  background-color: white !important;
+  border-color: #218838 !important;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important;
+}
+
+/* Ensure the selected item inside the select input has no background */
+.ant-select-selection-item {
+  background-color: transparent !important; /* No blue background */
+}
+
+/* ✅ Override selected option inside the dropdown */
+.ant-select-item-option-selected {
+  background-color: rgba(112, 224, 0, 0.2) !important; /* Light green */
+}
+
+/* ✅ Dropdowns */
+.ant-dropdown-menu,
+.ant-select-dropdown {
+  background-color: white !important;
+  font-family: 'Poppins', sans-serif !important;
+  border: 1px solid #28a745 !important;
+}
+
+/* ✅ Select Dropdown Options */
+.ant-select-item {
+  font-family: 'Poppins', sans-serif !important;
+}
+.ant-select-item-option-active,
+.ant-select-item:hover {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+/* ✅ Buttons */
+.ant-btn-primary {
+  background-color: #70E000 !important;
+  border-color: #70E000 !important;
+  color: white !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ant-btn-default {
+  font-family: 'Poppins', sans-serif !important;
+} 
+
+.ant-btn-primary:hover {
+  background-color: #218838 !important;
+  border-color: #218838 !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.ant-btn-default:hover {
+  border-color: #218838 !important;
+  color: #218838 !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* Disabled Primary Button */
+.ant-btn-primary[disabled],
+.ant-btn-primary.ant-btn-disabled {
+  background-color: #a0d080 !important; /* Light green */
+  border-color: #a0d080 !important;
+  color: white !important;
+  opacity: 0.6; /* Slightly faded effect */
+  cursor: not-allowed !important;
+}
+
+/* Disabled Default Button */
+.ant-btn-default[disabled],
+.ant-btn-default.ant-btn-disabled {
+  border-color: #a0d080 !important;
+  color: #a0d080 !important;
+  opacity: 0.6;
+  cursor: not-allowed !important;
+}
+
+/* Ensure hover does not apply for disabled buttons */
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary.ant-btn-disabled:hover,
+.ant-btn-default[disabled]:hover,
+.ant-btn-default.ant-btn-disabled:hover {
+  background-color: #a0d080 !important;
+  border-color: #a0d080 !important;
+  color: white !important;
+}
+
+/* ✅ Checkbox & Radio */
+.ant-checkbox-checked .ant-checkbox-inner,
+.ant-radio-checked .ant-radio-inner {
+  background-color: #28a745 !important;
+  border-color: #28a745 !important;
+}
+
+/* ✅ Default InputNumber */
+.ant-input-number, .ant-input-password {
+  color: #28a745 !important; /* Green text */
+  font-family: 'Poppins', sans-serif !important;
+  border-color: #218838 !important;
+}
+
+/* ✅ Hover Effect for InputNumber */
+.ant-input-number:hover, .ant-input-password:hover {
+  border-color: #218838 !important; /* Darker green on hover */
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important;
+}
+
+/* ✅ Focus Effect for InputNumber */
+.ant-input-number-focused,
+.ant-input-number:focus, .ant-input-password:focus, .ant-input-password-focused{
+  border-color: #218838 !important; /* Darker green */
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important;
+}
+
+/* ✅ Disabled InputNumber */
+.ant-input-number-disabled {
+  background-color: rgba(40, 167, 69, 0.1) !important; /* Light green */
+  border-color: rgba(40, 167, 69, 0.3) !important; /* Faded green */
+  color: rgba(40, 167, 69, 0.5) !important; /* Grey-green text */
+  cursor: not-allowed !important;
+}
+
+/* ✅ Remove background color from InputNumber up/down arrows */
+.ant-input-number-handler-wrap {
+  background: honeydew !important; /* No background */
+  border-left: none !important; /* Remove border if needed */
+}
+
+/* ✅ Remove background on individual up/down buttons */
+.ant-input-number-handler {
+  background: honeydew !important; /* No background */
+  border: none !important; /* Remove border */
+}
+
+/* ✅ Ensure the hover effect only changes the border on InputNumber arrows */
+.ant-input-number-handler:hover {
+  background: honeydew !important; /* No hover background */
+  color: #218838 !important; /* Keep green arrow color */
+}
+
+.ant-form-item-label > label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+
+/* Override Ant Design DatePicker Colors */
+.ant-picker {
+  border-color: #28a745 !important; /* Green border */
+}
+
+.ant-picker:hover,
+.ant-picker-focused {
+  border-color: #218838 !important; /* Darker green on hover/focus */
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important;
+}
+
+/* Change DatePicker input text color */
+.ant-picker-input > input {
+  color: #218838 !important; /* Green text */
+}
+
+/* Change DatePicker icon color */
+.ant-picker-suffix {
+  color: #28a745 !important; /* Green icon */
+}
+
+/* Override dropdown calendar header */
+.ant-picker-header {
+  background-color: #28a745 !important; /* Green header */
+  color: white !important;
+}
+
+/* Override calendar day selections */
+.ant-picker-cell-in-view.ant-picker-cell-today::before {
+  border-color: #28a745 !important; /* Green border for today */
+}
+
+.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-selected {
+  background-color: #28a745 !important; /* Green selected date */
+  color: white !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected:hover {
+  background-color: #218838 !important; /* Darker green on hover */
+}
+
+/* Change calendar navigation arrows */
+.ant-picker-header-next-btn,
+.ant-picker-header-prev-btn {
+  color: white !important; /* White arrows */
+}
+
+
+.ant-btn-primary.ant-btn-dangerous {
+  background-color: red !important;
+  border-color: red !important;
+}
+
+.ant-btn-primary.ant-btn-dangerous:hover {
+  background-color: darkred !important;
+  border-color: darkred !important;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: #16a34a !important; /* Tailwind green-600 */
+  border-color: #16a34a !important;
+  color: white !important;
+}
+
+/* Completed Step Icon */
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: #F0FFF1 !important; 
+  border: #004B23 !important; /* Dark green */
+  color: #004B23 !important;
+}
+
+/* Optional: Make the checkmark inside white */
+.ant-steps-item-finish .ant-steps-icon {
+  color: #004B23 !important;
+}
+
+
+/* Active tab */
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #228B22 !important; /* Cal Poly Green or your green */
+  font-weight: 600;
+}
+
+/* Hover state */
+.ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: #228B22 !important;
+}
+
+/* Active tab underline */
+.ant-tabs-ink-bar {
+  background-color: #228B22 !important;
+}
+
+
+
+
+
+
+
+
+
+
+/* Custom scrollbar styles */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 128, 0.5); /* Tailwind's gray-500 at 50% */
+  border-radius: 4px;
+}
+
+.react-calendar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.react-calendar__tile--active {
+  background-color: #34d399 !important; /* Tailwind emerald-400 */
+  color: white !important;
+  border-radius: 0.75rem;
+}
