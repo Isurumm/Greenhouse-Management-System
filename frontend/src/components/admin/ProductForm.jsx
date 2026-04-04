@@ -159,7 +159,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                     name="price"
                     label={
                       <span className="font-medium text-gray-700">
-                        Price (USD)
+                        Price (Rs.)
                       </span>
                     }
                     rules={[

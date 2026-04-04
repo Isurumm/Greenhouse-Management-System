@@ -9,6 +9,33 @@ const DriverManager = ({ visible, onClose, drivers, vehicles }) => {
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
+  const handlePhoneKeyDown = (event) => {
+  const allowedKeys = [
+    "Backspace",
+    "Delete",
+    "Tab",
+    "Escape",
+    "Enter",
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End",
+  ];
+
+  if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+    return;
+  }
+
+  if (!/^[0-9]$/.test(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const normalizePhoneInput = (event) => {
+  const value = event?.target?.value || "";
+  return value.replace(/\D/g, "").slice(0, 10);
+};
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
@@ -181,7 +208,22 @@ const DriverManager = ({ visible, onClose, drivers, vehicles }) => {
                           Dispatch Contact
                         </span>
                       }
-                      rules={[{ required: true }]}
+                                    getValueFromEvent={normalizePhoneInput}
+
+                      rules={[
+                { required: true, message: "Phone number is required" },
+                {
+                  validator: (_, value) => {
+                    if (/^\d{10}$/.test(value)) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject(
+                      new Error("Phone number must be exactly 10 digits"),
+                    );
+                  },
+                },
+              ]}
                       className="mb-0"
                     >
                       <Input

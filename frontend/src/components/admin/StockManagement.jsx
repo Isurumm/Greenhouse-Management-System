@@ -15,6 +15,34 @@ const StockManagement = ({ visible, onClose, product }) => {
   
   const [currentStock, setCurrentStock] = useState(product?.countInStock || 0);
 
+const handlePhoneKeyDown = (event) => {
+  const allowedKeys = [
+    "Backspace",
+    "Delete",
+    "Tab",
+    "Escape",
+    "Enter",
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End",
+  ];
+
+  if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+    return;
+  }
+
+  if (!/^[0-9]$/.test(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const normalizePhoneInput = (event) => {
+  const value = event?.target?.value || "";
+  return value.replace(/\D/g, "").slice(0, 10);
+};
+
+
   const fetchTransactions = async () => {
     setLoading(true);
     try {
@@ -108,7 +136,7 @@ const StockManagement = ({ visible, onClose, product }) => {
       <Title level={5} className="mb-4">Log New Movement</Title>
       <Form form={form} layout="vertical" onFinish={onFinish} className="bg-white p-4 border border-blue-100 rounded-lg shadow-sm mb-8">
         <div className="flex gap-4">
-           <Form.Item name="type" label="Movement Type" rules={[{ required: true }]} className="w-1/2">
+           <Form.Item name="type" label="Movement Type"  rules={[{ required: true }]} className="w-1/2">
              <Select
                options={[
                  { value: "Stock In", label: "Stock In (+)" },
@@ -116,8 +144,8 @@ const StockManagement = ({ visible, onClose, product }) => {
                ]}
              />
            </Form.Item>
-           <Form.Item name="quantity" label="Quantity" rules={[{ required: true }]} className="w-1/2">
-             <InputNumber className="w-full" />
+           <Form.Item name="quantity" label="Quantity" getValueFromEvent={normalizePhoneInput} rules={[{ required: true }]} className="w-1/2">
+             <Input className="w-full" />
            </Form.Item>
         </div>
         <Form.Item name="reference" label="Reference Note (Optional)">
