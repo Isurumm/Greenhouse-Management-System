@@ -192,9 +192,9 @@ const Polytunnels = () => {
           />
           <SummaryCard
             icon={<TeamOutlined />}
-            title="Total Employees"
-            value={employees.length}
-            extra="workforce records"
+            title="Assigned Staff"
+            value={employees.filter((e) => e.assignedTunnel).length}
+            extra="currently assigned"
           />
           <SummaryCard
             icon={<TeamOutlined />}
