@@ -30,6 +30,29 @@ const EmployeeManager = ({ visible, onClose, tunnels, employees }) => {
     ];
   }, [tunnels]);
 
+  const tunnelOptions = useMemo(() => {
+    if (!Array.isArray(tunnels)) return [];
+
+    const occupiedTunnelIds = new Map();
+    (Array.isArray(employees) ? employees : []).forEach((employee) => {
+      const tunnelId = employee.assignedTunnel?._id;
+      if (tunnelId) {
+        occupiedTunnelIds.set(tunnelId, employee);
+      }
+    });
+
+    return tunnels.map((tunnel) => {
+      const occupiedBy = occupiedTunnelIds.get(tunnel._id);
+      const occupiedByAnotherWorker = occupiedBy && occupiedBy._id !== editingId;
+
+      return {
+        value: tunnel._id,
+        label: occupiedByAnotherWorker ? `${tunnel.name} (Assigned)` : tunnel.name,
+        disabled: occupiedByAnotherWorker,
+      };
+    });
+  }, [editingId, employees, tunnels]);
+
   const filteredEmployees = useMemo(() => {
     if (!Array.isArray(employees)) return [];
     if (workerFilter === 'unassigned') {
@@ -226,19 +249,17 @@ const EmployeeManager = ({ visible, onClose, tunnels, employees }) => {
 
                   <Form.Item
                     name="assignedTunnel"
-                    label={<span className="font-medium text-gray-700">Assign a Worker</span>}
+                    label={<span className="font-medium text-gray-700">Assign a Tunnel</span>}
+                    extra="Each tunnel can only have one assigned worker."
                     className="mb-0"
                   >
                     <Select
                       size='large'
                       allowClear
-                      placeholder="Select a Tunnel"
+                      placeholder="Select an available tunnel"
                       className="custom-select"
                       classNames={{ popup: { root: 'rounded-xl' } }}
-                      options={tunnels.map((t) => ({
-                        value: t._id,
-                        label: t.name,
-                      }))}
+                      options={tunnelOptions}
                     />
                   </Form.Item>
 

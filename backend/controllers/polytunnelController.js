@@ -193,7 +193,21 @@ const getTunnelEmployees = asyncHandler(async (req, res) => {
 // @route   POST /api/polytunnels/employees
 // @access  Private
 const createTunnelEmployee = asyncHandler(async (req, res) => {
-  const employee = await TunnelEmployee.create(req.body);
+  const assignedTunnel = req.body.assignedTunnel || null;
+
+  if (assignedTunnel) {
+    const existingAssignment = await TunnelEmployee.findOne({ assignedTunnel });
+
+    if (existingAssignment) {
+      res.status(409);
+      throw new Error('This polytunnel already has a worker assigned');
+    }
+  }
+
+  const employee = await TunnelEmployee.create({
+    ...req.body,
+    assignedTunnel,
+  });
   res.status(201).json(employee);
 });
 
@@ -204,13 +218,27 @@ const updateTunnelEmployee = asyncHandler(async (req, res) => {
   const employee = await TunnelEmployee.findById(req.params.id);
 
   if (employee) {
+    const assignedTunnel =
+      req.body.assignedTunnel !== undefined
+        ? req.body.assignedTunnel || null
+        : employee.assignedTunnel;
+
+    if (assignedTunnel) {
+      const existingAssignment = await TunnelEmployee.findOne({
+        assignedTunnel,
+        _id: { $ne: employee._id },
+      });
+
+      if (existingAssignment) {
+        res.status(409);
+        throw new Error('This polytunnel already has a worker assigned');
+      }
+    }
+
     employee.fullName = req.body.fullName || employee.fullName;
     employee.phone = req.body.phone || employee.phone;
     employee.roleTitle = req.body.roleTitle || employee.roleTitle;
-    employee.assignedTunnel =
-      req.body.assignedTunnel !== undefined
-        ? req.body.assignedTunnel
-        : employee.assignedTunnel;
+    employee.assignedTunnel = assignedTunnel;
 
     const updatedEmployee = await employee.save();
     res.json(updatedEmployee);

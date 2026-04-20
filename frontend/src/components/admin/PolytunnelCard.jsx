@@ -1,10 +1,6 @@
 import React from "react";
 import { Tooltip } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, TeamOutlined } from "@ant-design/icons";
 import { RiPlantLine } from "react-icons/ri";
 import DeleteConfirm from "../common/DeleteConfirm";
 
@@ -88,6 +84,11 @@ const PolytunnelCard = ({
 }) => {
   const config = STATUS_CONFIG[tunnel.status] || STATUS_CONFIG.Fallow;
   const isHarvestable = tunnel.status === "Active";
+  const normalizedWorkerNames = Array.isArray(workerNames)
+    ? workerNames.filter(Boolean)
+    : [];
+  const workerNamesLabel = normalizedWorkerNames.join(", ");
+  const isAssigned = normalizedWorkerNames.length > 0;
 
   const prediction = tunnel?.harvestPrediction;
   const predictedKg = prediction?.predictedNextHarvestKg;
@@ -157,7 +158,9 @@ const PolytunnelCard = ({
                   <p className="mt-1 text-lg font-semibold text-emerald-700">
                     {predictedKg} kg
                   </p>
-                  <p className="text-sm text-gray-600">Estimated next harvest</p>
+                  <p className="text-sm text-gray-600">
+                    Estimated next harvest
+                  </p>
 
                   <div className="mt-2 space-y-1 text-xs text-gray-500">
                     <p>
@@ -169,12 +172,17 @@ const PolytunnelCard = ({
 
                     {prediction?.predictedPerSqMKg !== null &&
                       prediction?.predictedPerSqMKg !== undefined && (
-                        <p>Yield density: {prediction.predictedPerSqMKg} kg/m²</p>
+                        <p>
+                          Yield density: {prediction.predictedPerSqMKg} kg/m²
+                        </p>
                       )}
 
                     {prediction?.totalHarvestedKg !== null &&
                       prediction?.totalHarvestedKg !== undefined && (
-                        <p>Total harvested so far: {prediction.totalHarvestedKg} kg</p>
+                        <p>
+                          Total harvested so far: {prediction.totalHarvestedKg}{" "}
+                          kg
+                        </p>
                       )}
 
                     {prediction?.note && <p>{prediction.note}</p>}
@@ -214,14 +222,21 @@ const PolytunnelCard = ({
                   Workforce
                 </p>
                 <p className="truncate text-sm font-medium text-gray-700">
-                  {staffCount} {staffCount === 1 ? "employee" : "employees"} assigned
+                  {normalizedWorkerNames.length > 0
+                    ? `${workerNamesLabel}`
+                    : "Worker Unassigned"}
                 </p>
               </div>
             </div>
 
             <button
-              onClick={onAssignClick}
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+              onClick={!isAssigned ? onAssignClick : undefined}
+              disabled={isAssigned}
+              className={`inline-flex h-10 items-center justify-center rounded-xl border px-4 text-sm font-medium shadow-sm transition-all ${
+                isAssigned
+                  ? "cursor-not-allowed border-gray-100 bg-gray-100 text-gray-400"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               Assign
             </button>
@@ -231,7 +246,11 @@ const PolytunnelCard = ({
 
       <div className="relative mt-auto flex items-center justify-between border-t border-gray-100/80 bg-white/85 px-5 py-4 backdrop-blur-sm sm:px-6">
         <Tooltip
-          title={isHarvestable ? "Log final harvest" : "Tunnel must be active to harvest"}
+          title={
+            isHarvestable
+              ? "Log final harvest"
+              : "Tunnel must be active to harvest"
+          }
         >
           <button
             onClick={isHarvestable ? onHarvestClick : undefined}

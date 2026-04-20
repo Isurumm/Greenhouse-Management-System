@@ -37,7 +37,7 @@ const Cart = () => {
     for (let i = 1; i <= maxQty; i++) {
       options.push({
         value: i,
-        label: `${i}`,
+        label: `${formatQty(i)} Kg`,
       });
     }
     return options;
@@ -89,7 +89,7 @@ const Cart = () => {
                     {isInsufficientStock && (
                       <Alert
                         message="Insufficient Stock"
-                        description={`${item.name}: Only ${formatQty(item.countInStock)} available but ${formatQty(item.qty)} requested. Please reduce quantity.`}
+                        description={`${item.name}: Only ${formatQty(item.countInStock)} Kg available but ${formatQty(item.qty)} Kg requested. Please reduce quantity.`}
                         type="error"
                         showIcon
                         className="mb-4 !rounded-lg"
@@ -132,7 +132,7 @@ const Cart = () => {
                               Rs.{item.price.toFixed(2)}
                             </span>
                             <div className="flex items-center gap-2">
-                              <span className="text-gray-500">Qty:</span>
+                              <span className="text-gray-500">Qty (Kg):</span>
                               <Select
                                 value={Math.floor(item.qty)}
                                 onChange={(val) => addToCart(item, val)}
@@ -163,7 +163,7 @@ const Cart = () => {
                   Items (
                   {formatQty(
                     cart.cartItems.reduce((acc, item) => acc + item.qty, 0),
-                  )}
+                  )} Kg
                   )
                 </span>
                 <span className="font-semibold text-gray-900">
