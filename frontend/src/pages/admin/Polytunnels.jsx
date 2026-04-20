@@ -343,6 +343,7 @@ const Polytunnels = () => {
             fetchData();
           }}
           tunnel={selectedTunnel}
+          onRecorded={fetchData}
         />
       )}
 
