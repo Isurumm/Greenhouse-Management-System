@@ -28,6 +28,13 @@ import {
 const { Title, Text } = Typography;
 
 const formatCurrency = (value) => `Rs.${Number(value || 0).toFixed(2)}`;
+const formatWeight = (value) => {
+  const num = Number(value || 0);
+  if (Number.isInteger(num)) {
+    return `${num}`;
+  }
+  return `${num.toFixed(2).replace(/\.00$/, "")}`;
+};
 const formatDate = (value) =>
   value ? new Date(value).toLocaleString() : new Date().toLocaleString();
 
@@ -60,7 +67,7 @@ const buildReceiptHtml = (order, customerName) => {
       (item) => `
         <tr>
           <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${item.name}</td>
-          <td style="padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;">${item.qty}</td>
+          <td style="padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;">${formatWeight(item.qty)} Kg</td>
           <td style="padding:10px;border-bottom:1px solid #e5e7eb;text-align:right;">${formatCurrency(item.price)}</td>
           <td style="padding:10px;border-bottom:1px solid #e5e7eb;text-align:right;">${formatCurrency(item.qty * item.price)}</td>
         </tr>
@@ -109,7 +116,7 @@ const buildReceiptHtml = (order, customerName) => {
             <thead>
               <tr style="background:#f9fafb;">
                 <th style="text-align:left;padding:10px;border-bottom:1px solid #e5e7eb;">Item</th>
-                <th style="text-align:center;padding:10px;border-bottom:1px solid #e5e7eb;">Qty</th>
+                <th style="text-align:center;padding:10px;border-bottom:1px solid #e5e7eb;">Qty (Kg)</th>
                 <th style="text-align:right;padding:10px;border-bottom:1px solid #e5e7eb;">Unit Price</th>
                 <th style="text-align:right;padding:10px;border-bottom:1px solid #e5e7eb;">Total</th>
               </tr>
@@ -405,7 +412,7 @@ const Checkout = () => {
                       <span className="text-gray-800">{item.name}</span>
                     </div>
                     <div className="text-gray-600">
-                      {item.qty} x Rs.{item.price.toFixed(2)} ={" "}
+                      {formatWeight(item.qty)} Kg x Rs.{item.price.toFixed(2)} ={" "}
                       <span className="font-bold text-gray-900">
                         Rs.{(item.qty * item.price).toFixed(2)}
                       </span>

@@ -20,7 +20,7 @@ import { DateTime } from "luxon";
 
 const { Text } = Typography;
 
-const HarvestEntry = ({ visible, onClose, tunnel }) => {
+const HarvestEntry = ({ visible, onClose, tunnel, onRecorded }) => {
   const [form] = Form.useForm();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -130,6 +130,10 @@ const HarvestEntry = ({ visible, onClose, tunnel }) => {
       setSuccessData(data);
       message.success("Harvest recorded & Inventory synchronized!");
       fetchTransactions(transactionProductFilter, products);
+   if (onRecorded) {
+      onRecorded();
+    }
+   
     } catch (error) {
       message.error(
         error.response?.data?.message || "Failed to record harvest",

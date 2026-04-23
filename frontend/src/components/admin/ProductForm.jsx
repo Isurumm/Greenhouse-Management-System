@@ -34,6 +34,36 @@ const handleNumericKeyDown = (event) => {
   }
 };
 
+const handleTextKeyDown = (event) => {
+  const allowedKeys = [
+    "Backspace",
+    "Delete",
+    "Tab",
+    "Escape",
+    "Enter",
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End",
+  ];
+
+  if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+    return;
+  }
+
+  if (/^[0-9]$/.test(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const sanitizeTextInput = (value) => {
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  return value.replace(/[0-9]/g, "");
+};
+
 const parseDecimalInput = (value) => {
   if (typeof value !== "string") {
     return value;
@@ -124,11 +154,24 @@ const ProductForm = ({ visible, onClose, product }) => {
                         Product Name
                       </span>
                     }
-                    rules={[{ required: true }]}
+                    rules={[
+                      { required: true, message: "Product name is required" },
+                      {
+                        pattern: /^[^0-9]*$/,
+                        message: "Product name cannot contain numbers",
+                      },
+                    ]}
                     className="mb-0"
                   >
                     <Input
                       placeholder="E.g., Organic Carrots"
+                      onKeyDown={handleTextKeyDown}
+                      onChange={(event) => {
+                        form.setFieldValue(
+                          "name",
+                          sanitizeTextInput(event.target.value),
+                        );
+                      }}
                       className="!h-11 !rounded-xl !border-gray-200 hover:!border-blue-400 focus:!border-blue-500"
                     />
                   </Form.Item>

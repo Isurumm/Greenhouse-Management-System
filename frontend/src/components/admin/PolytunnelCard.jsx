@@ -1,10 +1,6 @@
 import React from "react";
 import { Tooltip } from "antd";
-import {
-  EditOutlined,
-  DeleteOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, TeamOutlined } from "@ant-design/icons";
 import { RiPlantLine } from "react-icons/ri";
 import DeleteConfirm from "../common/DeleteConfirm";
 
@@ -88,26 +84,36 @@ const PolytunnelCard = ({
 }) => {
   const config = STATUS_CONFIG[tunnel.status] || STATUS_CONFIG.Fallow;
   const isHarvestable = tunnel.status === "Active";
+  const normalizedWorkerNames = Array.isArray(workerNames)
+    ? workerNames.filter(Boolean)
+    : [];
+  const workerNamesLabel = normalizedWorkerNames.join(", ");
+  const isAssigned = normalizedWorkerNames.length > 0;
+
+  const prediction = tunnel?.harvestPrediction;
+  const predictedKg = prediction?.predictedNextHarvestKg;
+  const lastHarvestDate = prediction?.lastHarvestDate
+    ? new Date(prediction.lastHarvestDate).toLocaleDateString()
+    : null;
 
   return (
-    <div className="group relative flex h-full flex-col overflow-hidden rounded-[28px] border  border-gray-200/80 bg-white shadow-[0_10px_35px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(15,23,42,0.10)] font-poppins">
-      {/* Top accent */}
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-[28px] border border-gray-200/80 bg-white shadow-[0_10px_35px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(15,23,42,0.10)] font-poppins">
       <div className={`h-1.5 w-full bg-gradient-to-r ${config.accent}`} />
 
-      {/* Decorative background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className={`absolute -right-12 -top-10 h-36 w-36 rounded-full blur-3xl ${config.glow}`} />
+        <div
+          className={`absolute -right-12 -top-10 h-36 w-36 rounded-full blur-3xl ${config.glow}`}
+        />
         <div className="absolute left-0 top-0 h-32 w-full bg-gradient-to-br from-gray-50/90 via-white to-white" />
-        <div className={`absolute inset-x-0 top-0 h-40 bg-gradient-to-br ${config.soft} opacity-90`} />
+        <div
+          className={`absolute inset-x-0 top-0 h-40 bg-gradient-to-br ${config.soft} opacity-90`}
+        />
         <div className="absolute right-6 top-6 h-24 w-24 rounded-full border border-white/50 bg-white/30 blur-2xl" />
       </div>
 
-      {/* Content */}
       <div className="relative flex flex-1 flex-col px-5 pb-4 pt-5 sm:px-6 sm:pb-5 sm:pt-6">
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-
             <h3 className="truncate text-[20px] font-semibold tracking-tight text-gray-900">
               {tunnel.name}
             </h3>
@@ -125,23 +131,81 @@ const PolytunnelCard = ({
           </div>
         </div>
 
-        {/* Crop showcase */}
         <div className="flex justify-center items-center gap-10 mt-3 rounded-3xl border border-white/80 bg-white/75 p-2 shadow-[0_6px_20px_rgba(15,23,42,0.04)] backdrop-blur-sm">
-          <p className=" font-semibold  text-gray-400">
-            Planted Crop
-          </p>
-            <div className="min-w-0">
-              <p
-                className={`truncate text-lg font-semibold ${
-                  tunnel.cropType ? "text-gray-900" : "text-gray-400 italic font-normal"
-                }`}
-              >
-                {tunnel.cropType || "No crop planted"}
-              </p>
-            </div>
+          <p className="font-semibold text-gray-400">Planted Crop</p>
+          <div className="min-w-0">
+            <p
+              className={`truncate text-lg font-semibold ${
+                tunnel.cropType
+                  ? "text-gray-900"
+                  : "text-gray-400 italic font-normal"
+              }`}
+            >
+              {tunnel.cropType || "No crop planted"}
+            </p>
+          </div>
         </div>
 
-        {/* Staff section */}
+        <div className="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4 shadow-[0_4px_14px_rgba(16,185,129,0.08)]">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-600">
+                Harvest Prediction
+              </p>
+
+              {predictedKg !== null && predictedKg !== undefined ? (
+                <>
+                  <p className="mt-1 text-lg font-semibold text-emerald-700">
+                    {predictedKg} kg
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Estimated next harvest
+                  </p>
+
+                  <div className="mt-2 space-y-1 text-xs text-gray-500">
+                    <p>
+                      Based on {prediction?.harvestCount || 0} harvest record
+                      {(prediction?.harvestCount || 0) === 1 ? "" : "s"}
+                    </p>
+
+                    {lastHarvestDate && <p>Last harvest: {lastHarvestDate}</p>}
+
+                    {prediction?.predictedPerSqMKg !== null &&
+                      prediction?.predictedPerSqMKg !== undefined && (
+                        <p>
+                          Yield density: {prediction.predictedPerSqMKg} kg/m²
+                        </p>
+                      )}
+
+                    {prediction?.totalHarvestedKg !== null &&
+                      prediction?.totalHarvestedKg !== undefined && (
+                        <p>
+                          Total harvested so far: {prediction.totalHarvestedKg}{" "}
+                          kg
+                        </p>
+                      )}
+
+                    {prediction?.note && <p>{prediction.note}</p>}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="mt-1 text-sm font-medium text-gray-500">
+                    Not enough data yet
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    Add harvest entries to generate a prediction
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-emerald-700 shadow-sm">
+              {prediction?.confidence || "Low"}
+            </div>
+          </div>
+        </div>
+
         <div className="mt-4 rounded-2xl border border-gray-100/90 bg-white/80 p-4 shadow-[0_4px_14px_rgba(15,23,42,0.04)] backdrop-blur-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex min-w-0 items-center gap-3">
@@ -158,14 +222,21 @@ const PolytunnelCard = ({
                   Workforce
                 </p>
                 <p className="truncate text-sm font-medium text-gray-700">
-                  {staffCount} {staffCount === 1 ? "employee" : "employees"} assigned
+                  {normalizedWorkerNames.length > 0
+                    ? `${workerNamesLabel}`
+                    : "Worker Unassigned"}
                 </p>
               </div>
             </div>
 
             <button
-              onClick={onAssignClick}
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+              onClick={!isAssigned ? onAssignClick : undefined}
+              disabled={isAssigned}
+              className={`inline-flex h-10 items-center justify-center rounded-xl border px-4 text-sm font-medium shadow-sm transition-all ${
+                isAssigned
+                  ? "cursor-not-allowed border-gray-100 bg-gray-100 text-gray-400"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900"
+              }`}
             >
               Assign
             </button>
@@ -173,10 +244,13 @@ const PolytunnelCard = ({
         </div>
       </div>
 
-      {/* Footer */}
       <div className="relative mt-auto flex items-center justify-between border-t border-gray-100/80 bg-white/85 px-5 py-4 backdrop-blur-sm sm:px-6">
         <Tooltip
-          title={isHarvestable ? "Log final harvest" : "Tunnel must be active to harvest"}
+          title={
+            isHarvestable
+              ? "Log final harvest"
+              : "Tunnel must be active to harvest"
+          }
         >
           <button
             onClick={isHarvestable ? onHarvestClick : undefined}

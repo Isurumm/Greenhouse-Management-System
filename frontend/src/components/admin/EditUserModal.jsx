@@ -30,6 +30,36 @@ const normalizePhoneInput = (event) => {
   return value.replace(/\D/g, "").slice(0, 10);
 };
 
+const handleTextKeyDown = (event) => {
+  const allowedKeys = [
+    "Backspace",
+    "Delete",
+    "Tab",
+    "Escape",
+    "Enter",
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End",
+  ];
+
+  if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+    return;
+  }
+
+  if (/^[0-9]$/.test(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const sanitizeTextInput = (value) => {
+  if (typeof value !== "string") {
+    return value;
+  }
+
+  return value.replace(/[0-9]/g, "");
+};
+
 const EditUserModal = ({ visible, onClose, targetUser }) => {
   const [form] = Form.useForm();
   const { user: currentUser } = useAuth();
@@ -105,11 +135,24 @@ const EditUserModal = ({ visible, onClose, targetUser }) => {
             <Form.Item
               name="fullName"
               label={<span className="font-medium text-gray-700">Full Name</span>}
-              rules={[{ required: true, message: "Full name is required" }]}
+              rules={[
+                { required: true, message: "Full name is required" },
+                {
+                  pattern: /^[^0-9]*$/,
+                  message: "Full name cannot contain numbers",
+                },
+              ]}
               className="mb-4"
             >
               <Input
                 placeholder="Enter full name"
+                onKeyDown={handleTextKeyDown}
+                onChange={(event) => {
+                  form.setFieldValue(
+                    "fullName",
+                    sanitizeTextInput(event.target.value),
+                  );
+                }}
                 className="!h-11 !rounded-xl !border-gray-200 hover:!border-blue-400 focus:!border-blue-500"
               />
             </Form.Item>
