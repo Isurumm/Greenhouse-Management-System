@@ -45,7 +45,14 @@ const AdminLayout = () => {
         userRole={user?.role}
       />
       <Layout style={{ marginLeft: siderWidth, transition: 'margin-left 0.2s ease' }}>
-        <Header className="bg-white p-0 px-4 flex justify-between items-center shadow-sm border-b border-slate-100">
+        <Header
+          className="fixed top-0 z-30 bg-white p-0 px-4 flex justify-between items-center shadow-sm border-b border-slate-100"
+          style={{
+            left: siderWidth,
+            right: 0,
+            transition: 'left 0.2s ease',
+          }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -59,7 +66,7 @@ const AdminLayout = () => {
              </Dropdown>
           </div>
         </Header>
-        <Content className="m-6 p-6 min-h-[280px] bg-white rounded-2xl shadow-sm overflow-auto border border-slate-100">
+        <Content className="mx-6 mb-6 mt-[88px] p-6 min-h-[280px] bg-white rounded-2xl shadow-sm overflow-auto border border-slate-100">
           <Outlet />
         </Content>
       </Layout>

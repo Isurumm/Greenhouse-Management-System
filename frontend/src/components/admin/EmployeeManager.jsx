@@ -11,6 +11,36 @@ import {
 import { createTunnelEmployee, updateTunnelEmployee } from '../../api/polytunnelsApi';
 import { useAuth } from '../../context/AuthContext';
 
+const handleTextKeyDown = (event) => {
+  const allowedKeys = [
+    'Backspace',
+    'Delete',
+    'Tab',
+    'Escape',
+    'Enter',
+    'ArrowLeft',
+    'ArrowRight',
+    'Home',
+    'End',
+  ];
+
+  if (allowedKeys.includes(event.key) || event.ctrlKey || event.metaKey) {
+    return;
+  }
+
+  if (/^[0-9]$/.test(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const sanitizeTextInput = (value) => {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
+  return value.replace(/[0-9]/g, '');
+};
+
 const EmployeeManager = ({ visible, onClose, tunnels, employees }) => {
   const [form] = Form.useForm();
   const { user } = useAuth();
@@ -200,6 +230,13 @@ const EmployeeManager = ({ visible, onClose, tunnels, employees }) => {
                     <Input
                       className="!h-11 !rounded-xl !border-gray-200 hover:!border-blue-400 focus:!border-blue-500"
                       placeholder="Enter worker name"
+                      onKeyDown={handleTextKeyDown}
+                      onChange={(event) => {
+                        form.setFieldValue(
+                          'fullName',
+                          sanitizeTextInput(event.target.value),
+                        );
+                      }}
                     />
                   </Form.Item>
 
