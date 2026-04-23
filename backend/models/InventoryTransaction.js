@@ -8,6 +8,7 @@ const inventoryTransactionSchema = mongoose.Schema(
       ref: 'Product',
     },
     type: {
+      //Manage Stock table
       type: String,
       required: true,
       enum: ['Stock In', 'Stock Out', 'Manual Adjustment', 'Harvest Entry'],

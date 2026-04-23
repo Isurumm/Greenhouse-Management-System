@@ -32,7 +32,7 @@ const addTransaction = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Transaction would result in negative inventory bounds');
   }
-
+//Values we enter in Form, Saves to database
   const transaction = await InventoryTransaction.create({
     product: productId,
     type,

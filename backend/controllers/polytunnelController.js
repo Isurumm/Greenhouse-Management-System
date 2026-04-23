@@ -97,6 +97,7 @@ const updateTunnelEmployee = asyncHandler(async (req, res) => {
   }
 });
 
+//Poly tunnel Harvest added to the inventory
 // ------------ HARVEST --------------
 
 // @desc    Record a harvest

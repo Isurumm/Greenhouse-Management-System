@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../models/Product');
 
+// CRUD OPERATIONS
+
 // @desc    Fetch all products
 // @route   GET /api/products
 // @access  Public

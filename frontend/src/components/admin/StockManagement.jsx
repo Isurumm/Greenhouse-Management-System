@@ -62,7 +62,7 @@ const normalizePhoneInput = (event) => {
       fetchTransactions();
     }
   }, [visible, product]);
-
+// CRUD Update - Stock Management
   const onFinish = async (values) => {
     setFormLoading(true);
     let qty = values.quantity;
@@ -143,7 +143,8 @@ const normalizePhoneInput = (event) => {
                  { value: "Stock Out", label: "Stock Out (-)" },
                ]}
              />
-           </Form.Item>
+           </Form.Item> 
+           {/* Validations in Stock Management Fields */}
            <Form.Item name="quantity" label="Quantity" getValueFromEvent={normalizePhoneInput} rules={[{ required: true }]} className="w-1/2">
              <Input className="w-full" />
            </Form.Item>

@@ -390,6 +390,7 @@ const AdminDashboard = () => {
             INVENTORY MODULE
         ══════════════════════════════════════════════════════════ */}
         {canSee('inventory') && (
+          // Grid appears as 2 colunmns
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             <Panel>
               <SectionHeader title="Low / Out of Stock Products" action={() => navigate('/admin/inventory')} actionLabel="Open Inventory" />

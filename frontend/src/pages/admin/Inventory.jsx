@@ -55,7 +55,7 @@ const Inventory = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(); //Data fetched to frontend CRUD - Read
   }, []);
 
   const handleDelete = async (id) => {
@@ -65,7 +65,7 @@ const Inventory = () => {
       message.success("Product deleted");
       fetchProducts();
     } catch (error) {
-      message.error(
+      message.error( //CRUD - Delete 
         error.response?.data?.message || "Failed to delete product",
       );
     }
@@ -168,6 +168,7 @@ const Inventory = () => {
       ),
     },
     {
+      // Inventory Page Table
       title: "Stock Status",
       key: "status",
       render: (_, record) => {
@@ -253,7 +254,7 @@ const Inventory = () => {
       ),
     },
   ];
-
+// Calculate the values in the summary cards
   const filteredInStockCount = filteredProducts.filter(
     (p) => p.countInStock > p.minStockLevel,
   ).length;
@@ -369,10 +370,10 @@ const Inventory = () => {
       <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
         <Table
           columns={columns}
-          dataSource={filteredProducts}
+          dataSource={filteredProducts} // Data to Table 
           rowKey="_id"
           loading={loading}
-          pagination={{ pageSize: 8 }}
+          pagination={{ pageSize: 8 }} // Numbver of Rows in a page (Products) in Inventory
           className="[&_.ant-table-thead>tr>th]:bg-gray-50 [&_.ant-table-thead>tr>th]:text-xs [&_.ant-table-thead>tr>th]:uppercase [&_.ant-table-thead>tr>th]:tracking-wider [&_.ant-table-thead>tr>th]:text-gray-500 [&_.ant-table-tbody>tr:hover>td]:bg-gray-50"
         />
       </div>

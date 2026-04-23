@@ -71,7 +71,7 @@ const ProductForm = ({ visible, onClose, product }) => {
   const onFinish = async (values) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-
+// CRUD - Update and Create
       if (isEdit) {
         await updateProduct(product._id, values, config);
         message.success("Product updated successfully");
@@ -254,7 +254,7 @@ const ProductForm = ({ visible, onClose, product }) => {
                     >
                       {isEdit
                         ? "Update Product Details"
-                        : "Create Product Catalog Entry"}
+                        : "Create Product Catalogue Entry"}
                     </Button>
                   </div>
                 </div>
